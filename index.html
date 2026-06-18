@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Importadora Cali | Catálogo de Precios</title>
+        <link rel="icon" type="image/svg+xml" href="logo.svg" />
+        <meta name="theme-color" content="#cc0000">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500;700;900&family=Montserrat:wght@400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet" />
+        <style>
+            :root {
+                --brand-red: #cc0000;
+                --brand-red-hover: #a30000;
+                --brand-white: #ffffff;
+                --bg-light: #f8f9fa;
+                --text-main: #1a1a1a;
+                --text-muted: #6c757d;
+                --border-color: #e9ecef;
+                --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+                --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            }
+
+            * { box-sizing: border-box; margin: 0; padding: 0; }
+
+            body {
+                font-family: "Montserrat", sans-serif;
+                background-color: var(--bg-light);
+                color: var(--text-main);
+                padding-bottom: 60px;
+                -webkit-font-smoothing: antialiased;
+            }
+
+            /* --- HEADER CORPORATIVO ROJO Y BLANCO --- */
+            header {
+                background-color: var(--brand-white);
+                padding: 35px 20px 25px;
+                text-align: center;
+                border-bottom: 4px solid var(--brand-red);
+                box-shadow: var(--shadow-sm);
+            }
+            
+            header h1 {
+                font-family: "Bebas Neue", sans-serif;
+                font-size: clamp(3rem, 8vw, 5rem);
+                letter-spacing: 3px;
+                color: var(--brand-red);
+                line-height: 1;
+                margin-bottom: 5px;
+            }
+
+            header .subtitle {
+                color: var(--text-muted);
+                font-size: 0.95rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 5px;
+            }
+
+            /* --- BUSCADOR ANCLADO (STICKY) --- */
+            .sticky-nav {
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+                background-color: var(--bg-light);
+                padding: 20px;
+                border-bottom: 1px solid var(--border-color);
+                box-shadow: var(--shadow-sm);
+            }
+
+            .controls-wrapper {
+                max-width: 1100px;
+                margin: 0 auto;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .search-box {
+                background: var(--brand-white);
+                border: 2px solid var(--border-color);
+                display: flex;
+                align-items: center;
+                padding: 14px 24px;
+                border-radius: 50px;
+                transition: all 0.3s ease;
+                box-shadow: var(--shadow-sm);
+            }
+            .search-box:focus-within { 
+                border-color: var(--brand-red); 
+                box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.1);
+            }
+
+            #searchInput {
+                flex: 1; 
+                background: transparent; 
+                border: none; 
+                color: var(--text-main);
+                font-size: 1.1rem; 
+                font-family: "Montserrat", sans-serif; 
+                font-weight: 500;
+                outline: none; 
+                text-transform: uppercase;
+            }
+            #searchInput::placeholder { color: #adb5bd; font-weight: 400; text-transform: none; }
+
+            .filter-tags { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+            
+            .btn-filter {
+                background: var(--brand-white);
+                border: 1px solid var(--border-color);
+                color: var(--text-muted);
+                padding: 8px 20px;
+                font-family: "Montserrat", sans-serif;
+                font-size: 0.85rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                border-radius: 50px;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+            .btn-filter:hover {
+                border-color: var(--brand-red);
+                color: var(--brand-red);
+            }
+            .btn-filter.active { 
+                background: var(--brand-red); 
+                color: var(--brand-white); 
+                border-color: var(--brand-red);
+                box-shadow: 0 4px 10px rgba(204, 0, 0, 0.2);
+            }
+
+            /* --- LISTA DE PRODUCTOS --- */
+            .list-wrapper { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+            
+            .list-header {
+                display: grid; grid-template-columns: 160px 1fr 140px 180px; padding: 15px 25px;
+                font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted);
+                border-bottom: 2px solid var(--brand-red);
+                margin-bottom: 15px;
+            }
+            @media (max-width: 768px) { .list-header { display: none; } }
+
+            .list-container {
+                display: flex; flex-direction: column; gap: 12px;
+            }
+
+            .list-item {
+                display: grid; grid-template-columns: 160px 1fr 140px 180px; align-items: center;
+                padding: 20px 25px; 
+                background: var(--brand-white); 
+                border-radius: 8px;
+                border: 1px solid var(--border-color);
+                box-shadow: var(--shadow-sm);
+                transition: transform 0.2s, box-shadow 0.2s;
+            }
+            .list-item:hover { 
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-md);
+                border-color: #ffcccc;
+            }
+
+            .col-code {
+                font-family: "Roboto Mono", monospace;
+                font-size: 1.25rem;
+                font-weight: 800;
+                color: var(--brand-red);
+            }
+
+            /* --- MINIATURAS (THUMBNAILS) --- */
+            .col-desc { display: flex; align-items: center; gap: 15px; padding-right: 15px; }
+            
+            .thumb-img {
+                width: 55px;
+                height: 55px;
+                object-fit: cover;
+                border-radius: 6px;
+                border: 1px solid var(--border-color);
+                cursor: pointer;
+                transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+                flex-shrink: 0;
+            }
+            .thumb-img:hover {
+                transform: scale(1.1);
+                box-shadow: 0 4px 10px rgba(204, 0, 0, 0.3);
+                border-color: var(--brand-red);
+            }
+            .thumb-placeholder {
+                width: 55px;
+                height: 55px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: var(--bg-light);
+                border: 1px solid var(--border-color);
+                border-radius: 6px;
+                color: #ced4da;
+                font-size: 1.2rem;
+                flex-shrink: 0;
+            }
+
+            .title-text-group { display: flex; flex-direction: column; gap: 4px; }
+            .product-title { font-size: 1rem; font-weight: 700; color: var(--text-main); text-transform: uppercase; line-height: 1.3; }
+            .product-subcodes { font-family: "Roboto Mono", monospace; font-size: 0.8rem; color: var(--text-muted); }
+
+            .col-brand { display: flex; align-items: center; }
+            .brand-badge {
+                display: inline-block; padding: 5px 12px; font-size: 0.75rem; font-weight: 700;
+                border-radius: 50px; background: #fff5f5; color: var(--brand-red); 
+                border: 1px solid rgba(204, 0, 0, 0.2); text-transform: uppercase; letter-spacing: 0.5px;
+            }
+
+            .col-price { text-align: right; display: flex; flex-direction: column; justify-content: center; }
+            .price-main { font-family: "Montserrat", sans-serif; font-size: 1.4rem; font-weight: 800; color: var(--text-main); }
+            .price-fact { font-size: 0.8rem; color: var(--brand-red); font-weight: 700; margin-top: 4px; }
+
+            /* --- MODAL IMAGEN GRANDE --- */
+            #imageModal {
+                display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.95);
+                z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(5px);
+            }
+            #imageModal img { max-width: 90%; max-height: 80vh; border: 2px solid var(--border-color); border-radius: 12px; box-shadow: var(--shadow-md); }
+            .close-btn { position: absolute; top: 25px; right: 35px; font-size: 3rem; color: var(--text-main); font-weight: 300; cursor: pointer; transition: 0.2s; }
+            .close-btn:hover { color: var(--brand-red); }
+
+            /* --- RESPONSIVE MÓVIL --- */
+            @media (max-width: 768px) {
+                .list-item { 
+                    grid-template-columns: 1fr; gap: 15px; padding: 20px; 
+                }
+                .list-item-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px dashed var(--border-color); padding-bottom: 12px; margin-bottom: 5px;}
+                .col-code { font-size: 1.3rem; }
+                .col-price { text-align: right; }
+                .price-main { font-size: 1.3rem; }
+                .col-brand { margin-top: 5px; }
+            }
+
+            .catalog-footer { max-width: 1100px; margin: 30px auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
+            .status-online { display: flex; align-items: center; gap: 6px; color: var(--brand-red); font-weight: 700; }
+        </style>
+    </head>
+    <body>
+
+        <header>
+            <h1>IMPORTADORA CALI</h1>
+            <div class="subtitle">Lista de Precios y Existencias</div>
+        </header>
+
+        <div class="sticky-nav">
+            <div class="controls-wrapper">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass" style="color: var(--brand-red); margin-right: 15px; font-size: 1.2rem;"></i>
+                    <input type="text" id="searchInput" placeholder="Escribe el código, marca o descripción..." oninput="filtrar()" />
+                </div>
+
+                <div class="filter-tags" id="filterTags">
+                    <button class="btn-filter active" onclick="cambiarFiltro(this, '')">Todos</button>
+                    <button class="btn-filter" onclick="cambiarFiltro(this, 'LIONPOWER')">NUEVO.Lionpower</button>
+                    <button class="btn-filter" onclick="cambiarFiltro(this, 'OUJUN')">NUEVO.Zhejiang(OUJUN)</button>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="list-wrapper">
+            <div class="list-header">
+                <div>Código</div>
+                <div>Descripción del Repuesto</div>
+                <div>Marca</div>
+                <div style="text-align: right;">Precio</div>
+            </div>
+            <div class="list-container" id="listaProductos">
+                <div style="padding: 60px; text-align: center; color: var(--text-muted); font-weight: 500;">
+                    <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2rem; color: var(--brand-red); margin-bottom: 15px; display: block;"></i>
+                    Conectando con el inventario...
+                </div>
+            </div>
+        </div>
+
+        <div class="catalog-footer">
+            <div id="productCount">Mostrando 0 productos</div>
+            <div class="status-online"><i class="fa-solid fa-cloud-check"></i> Catálogo Actualizado</div>
+        </div>
+
+        <div id="imageModal" onclick="cerrarImagen(event)">
+            <span class="close-btn" onclick="cerrarImagen(event)">&times;</span>
+            <img id="modalImg" src="" onclick="event.stopPropagation()" />
+        </div>
+
+
+    <script>
+            // URL de tu Apps Script
+            const API_WEB_URL = 'https://script.google.com/macros/s/AKfycbxC6vxC92O_npzFgzRbxAKBjsDcyPY-d15nZWDElpxKke33DPskFFZD-xh-kfGBT5Vt/exec';
+            
+            let productos = [];
+            let filtroMarcaActual = "";
+
+            // --- SISTEMA DE CONEXIÓN Y RESPALDO ---
+            async function cargarDatosDesdeSheets() {
+                // 1. Detectar si el celular/PC está sin internet desde el principio
+                if (!navigator.onLine) {
+                    cargarRespaldoLocal();
+                    return;
+                }
+
+                try {
+                    const respuesta = await fetch(API_WEB_URL, {
+                        method: 'GET',
+                        mode: 'cors',
+                        redirect: 'follow'
+                    });
+                    
+                    if (respuesta.ok) {
+                        const datosJson = await respuesta.json();
+                        if (datosJson && datosJson.length > 0) {
+                            guardarRespaldoLocal(datosJson); // Guarda los datos en la memoria
+                            procesarYMostrar(datosJson);
+                            return;
+                        }
+                    }
+                    throw new Error("Forzando Plan B");
+                    
+                } catch (error) {
+                    ejecutarPlanB_JSONP(); // Si el método normal falla, intentamos el Plan B
+                }
+            }
+
+            function ejecutarPlanB_JSONP() {
+                const viejoScript = document.getElementById('jsonp-engine');
+                if (viejoScript) viejoScript.remove();
+
+                const script = document.createElement('script');
+                script.id = 'jsonp-engine';
+                script.src = API_WEB_URL + '?callback=recibirDatos&nocache=' + new Date().getTime();
+                
+                script.onerror = function() {
+                    // Si el Plan B también falla (se cortó el internet a la mitad), cargamos el respaldo
+                    cargarRespaldoLocal();
+                };
+                document.body.appendChild(script);
+            }
+
+            function recibirDatos(datosJson) {
+                guardarRespaldoLocal(datosJson); // Guarda los datos
+                procesarYMostrar(datosJson);
+            }
+
+            // --- FUNCIONES DE MEMORIA (OFFLINE) ---
+            function guardarRespaldoLocal(datosJson) {
+                // Guarda la lista en el disco duro del celular/PC
+                localStorage.setItem('respaldoInventarioCali', JSON.stringify(datosJson));
+                
+                // Guarda la fecha y hora de la última actualización
+                const fecha = new Date();
+                const horaFormat = fecha.toLocaleDateString() + ' a las ' + fecha.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                localStorage.setItem('fechaRespaldoCali', horaFormat);
+
+                // Mostramos estado Online
+                const statusDiv = document.querySelector('.status-online');
+                statusDiv.innerHTML = `<i class="fa-solid fa-cloud-check"></i> Catálogo Actualizado`;
+                statusDiv.style.color = "var(--brand-red)";
+            }
+
+            function cargarRespaldoLocal() {
+                const datosGuardados = localStorage.getItem('respaldoInventarioCali');
+                const fechaGuardada = localStorage.getItem('fechaRespaldoCali');
+
+                if (datosGuardados) {
+                    // Si hay datos guardados, mostramos el estado Offline con advertencia visual
+                    const statusDiv = document.querySelector('.status-online');
+                    statusDiv.innerHTML = `<i class="fa-solid fa-wifi-slash"></i> Offline - Respaldo del ${fechaGuardada}`;
+                    statusDiv.style.color = "#d97706"; // Color naranja elegante para advertir
+                    
+                    procesarYMostrar(JSON.parse(datosGuardados));
+                } else {
+                    // Si no hay internet y NUNCA se ha abierto la página antes
+                    document.getElementById("listaProductos").innerHTML = `
+                        <div style="padding: 60px; text-align: center; color: var(--text-muted);">
+                            <i class="fa-solid fa-wifi-slash" style="font-size: 2.5rem; color: #d97706; margin-bottom: 15px; display: block;"></i>
+                            <b>No hay conexión a internet.</b><br><br>
+                            Aún no hay un respaldo guardado. Conéctate a internet al menos una vez para guardar el catálogo en tu dispositivo.
+                        </div>`;
+                    document.getElementById("productCount").innerText = "Mostrando 0 productos";
+                }
+            }
+
+            // --- PROCESAMIENTO Y VISUALIZACIÓN ---
+            function procesarYMostrar(datosJson) {
+                if (!datosJson || datosJson.length === 0) {
+                    document.getElementById("listaProductos").innerHTML = `
+                        <div style="padding: 60px; text-align: center; color: var(--text-muted);">
+                            La base de datos está vacía.
+                        </div>`;
+                    return;
+                }
+
+                productos = datosJson.map(p => {
+                    return {
+                        codCali: p.codCali ? String(p.codCali).trim() : '---',
+                        otrosCod: p.otrosCod ? String(p.otrosCod).trim() : '',
+                        desc: p.desc ? String(p.desc).trim() : 'SIN DESCRIPCIÓN',
+                        marca: p.marca ? String(p.marca).toUpperCase().trim() : 'SIN MARCA',
+                        pUnitario: Number(p.pUnitario) || 0,
+                        img: p.img ? String(p.img).trim() : ''
+                    };
+                });
+                
+                filtrar();
+            }
+
+            function obtenerClaseMarca(marca) {
+                if (!marca) return "";
+                return marca.toLowerCase().trim().replace(/\s+/g, '');
+            }
+
+            function abrirImagen(url) {
+                if(!url || url.includes('placeholder') || !url.startsWith('http')) return;
+                document.getElementById("modalImg").src = url;
+                document.getElementById("imageModal").style.display = "flex";
+            }
+
+            function cerrarImagen(e) {
+                document.getElementById("imageModal").style.display = "none";
+            }
+
+            function render(data) {
+                const container = document.getElementById("listaProductos");
+                if (data.length === 0) {
+                    container.innerHTML = `<div style="padding: 60px; text-align: center; color: var(--text-muted); font-weight: 500;">No se encontraron repuestos con esa búsqueda.</div>`;
+                    document.getElementById("productCount").innerText = "Mostrando 0 productos";
+                    return;
+                }
+
+                const esMovil = window.innerWidth <= 768;
+
+                container.innerHTML = data.map(p => {
+                    const unitPrice = p.pUnitario || 0;
+                    const pFact = (unitPrice * 1.09).toFixed(2);
+                    const marcaLabel = p.marca || "SIN MARCA";
+                    const searchString = `${p.codCali} ${p.desc} ${p.marca} ${p.otrosCod || ''}`.toLowerCase();
+
+                    const tieneImagen = p.img && p.img.startsWith('http');
+                    
+                    const thumbHtml = tieneImagen 
+                        ? `<img src="${p.img}" class="thumb-img" onclick="abrirImagen('${p.img}')" title="Clic para agrandar" loading="lazy">`
+                        : `<div class="thumb-placeholder" title="Sin foto disponible"><i class="fa-solid fa-camera-slash"></i></div>`;
+
+                    if (esMovil) {
+                        return `
+                        <div class="list-item" data-search="${searchString}">
+                            <div class="list-item-header">
+                                <div class="col-code">${p.codCali}</div>
+                                <div class="col-price">
+                                    <span class="price-main">Bs ${unitPrice}</span>
+                                    <span class="price-fact">FACT: Bs ${pFact}</span>
+                                </div>
+                            </div>
+                            <div class="col-desc">
+                                ${thumbHtml}
+                                <div class="title-text-group">
+                                    <span class="product-title">${p.desc}</span>
+                                    <span class="product-subcodes">${p.otrosCod || "---"}</span>
+                                </div>
+                            </div>
+                            <div class="col-brand">
+                                <span class="brand-badge">${marcaLabel}</span>
+                            </div>
+                        </div>`;
+                    } else {
+                        return `
+                        <div class="list-item" data-search="${searchString}">
+                            <div class="col-code">${p.codCali}</div>
+                            <div class="col-desc">
+                                ${thumbHtml}
+                                <div class="title-text-group">
+                                    <span class="product-title">${p.desc}</span>
+                                    <span class="product-subcodes">${p.otrosCod || "---"}</span>
+                                </div>
+                            </div>
+                            <div class="col-brand">
+                                <span class="brand-badge">${marcaLabel}</span>
+                            </div>
+                            <div class="col-price">
+                                <span class="price-main">Bs ${unitPrice}</span>
+                                <span class="price-fact">FACT: Bs ${pFact}</span>
+                            </div>
+                        </div>`;
+                    }
+                }).join("");
+
+                document.getElementById("productCount").innerText = `Mostrando ${data.length} de ${productos.length} repuestos`;
+            }
+
+            function filtrar() {
+                const q = document.getElementById("searchInput").value.toLowerCase();
+                const productosFiltrados = productos.filter(p => {
+                    const searchString = `${p.codCali} ${p.desc} ${p.marca} ${p.otrosCod || ''}`.toLowerCase();
+                    const coincideTexto = searchString.includes(q);
+                    const coincideMarca = filtroMarcaActual === "" || p.marca === filtroMarcaActual;
+                    return coincideTexto && coincideMarca;
+                });
+                render(productosFiltrados);
+            }
+
+            function cambiarFiltro(btn, marca) {
+                document.querySelectorAll(".btn-filter").forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                filtroMarcaActual = marca;
+                filtrar();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            let lastWidth = window.innerWidth;
+            window.addEventListener('resize', () => {
+                if ((window.innerWidth <= 768 && lastWidth > 768) || (window.innerWidth > 768 && lastWidth <= 768)) {
+                    lastWidth = window.innerWidth;
+                    filtrar();
+                }
+            });
+
+            // Detectar cambios en la conexión de internet en tiempo real
+            window.addEventListener('online', cargarDatosDesdeSheets);
+            window.addEventListener('offline', cargarRespaldoLocal);
+
+            window.onload = () => cargarDatosDesdeSheets();
+
+            // CONEXIÓN CON EL SERVICE WORKER PARA MODO OFFLINE (Visual)
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('./sw.js')
+                        .then(reg => console.log('Service Worker registrado correctamente.', reg))
+                        .catch(err => console.error('Error al registrar el Service Worker:', err));
+                });
+            }
+        </script>
+    </body>
+</html>
