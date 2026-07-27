@@ -13,13 +13,14 @@
             :root {
                 --brand-red: #cc0000;
                 --brand-red-hover: #a30000;
+                --brand-red-glow: rgba(204, 0, 0, 0.15);
                 --brand-white: #ffffff;
-                --bg-light: #f8f9fa;
+                --bg-light: #f4f6f9;
                 --text-main: #1a1a1a;
                 --text-muted: #6c757d;
-                --border-color: #e9ecef;
-                --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-                --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+                --border-color: #e2e8f0;
+                --shadow-sm: 0 4px 6px rgba(0,0,0,0.03);
+                --shadow-md: 0 10px 25px rgba(0,0,0,0.08);
             }
 
             * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -32,30 +33,32 @@
                 -webkit-font-smoothing: antialiased;
             }
 
-            /* --- HEADER CORPORATIVO ROJO Y BLANCO --- */
+            /* --- HEADER CORPORATIVO --- */
             header {
                 background-color: var(--brand-white);
-                padding: 35px 20px 25px;
+                padding: 40px 20px 30px;
                 text-align: center;
-                border-bottom: 4px solid var(--brand-red);
+                border-bottom: 1px solid var(--border-color);
                 box-shadow: var(--shadow-sm);
             }
             
             header h1 {
                 font-family: "Bebas Neue", sans-serif;
                 font-size: clamp(3rem, 8vw, 5rem);
-                letter-spacing: 3px;
+                letter-spacing: 4px;
                 color: var(--brand-red);
                 line-height: 1;
                 margin-bottom: 5px;
+                text-shadow: 0 2px 10px var(--brand-red-glow);
             }
 
             header .subtitle {
-                color: var(--text-muted);
+                color: var(--text-main);
                 font-size: 0.95rem;
-                font-weight: 600;
+                font-weight: 700;
                 text-transform: uppercase;
-                letter-spacing: 5px;
+                letter-spacing: 6px;
+                opacity: 0.7;
             }
 
             /* --- BUSCADOR ANCLADO (STICKY) --- */
@@ -63,14 +66,15 @@
                 position: sticky;
                 top: 0;
                 z-index: 1000;
-                background-color: var(--bg-light);
+                background-color: rgba(244, 246, 249, 0.95);
+                backdrop-filter: blur(8px);
                 padding: 20px;
                 border-bottom: 1px solid var(--border-color);
                 box-shadow: var(--shadow-sm);
             }
 
             .controls-wrapper {
-                max-width: 1100px;
+                max-width: 1200px;
                 margin: 0 auto;
                 display: flex;
                 flex-direction: column;
@@ -79,186 +83,154 @@
 
             .search-box {
                 background: var(--brand-white);
-                border: 2px solid var(--border-color);
+                border: 2px solid transparent;
                 display: flex;
                 align-items: center;
-                padding: 14px 24px;
+                padding: 16px 28px;
                 border-radius: 50px;
                 transition: all 0.3s ease;
-                box-shadow: var(--shadow-sm);
+                box-shadow: 0 4px 15px rgba(0,0,0,0.03);
             }
             .search-box:focus-within { 
                 border-color: var(--brand-red); 
-                box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.1);
+                box-shadow: 0 0 0 4px rgba(204, 0, 0, 0.1);
             }
 
             #searchInput {
-                flex: 1; 
-                background: transparent; 
-                border: none; 
-                color: var(--text-main);
-                font-size: 1.1rem; 
-                font-family: "Montserrat", sans-serif; 
-                font-weight: 500;
-                outline: none; 
-                text-transform: uppercase;
+                flex: 1; background: transparent; border: none; color: var(--text-main);
+                font-size: 1.15rem; font-family: "Montserrat", sans-serif; font-weight: 600;
+                outline: none; text-transform: uppercase;
             }
-            #searchInput::placeholder { color: #adb5bd; font-weight: 400; text-transform: none; }
+            #searchInput::placeholder { color: #adb5bd; font-weight: 500; text-transform: none; }
 
-            .filter-tags { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+            .filter-tags { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
             
             .btn-filter {
-                background: var(--brand-white);
-                border: 1px solid var(--border-color);
-                color: var(--text-muted);
-                padding: 8px 20px;
-                font-family: "Montserrat", sans-serif;
-                font-size: 0.85rem;
-                font-weight: 600;
-                text-transform: uppercase;
-                border-radius: 50px;
-                cursor: pointer;
-                transition: all 0.2s;
+                background: var(--brand-white); border: 1px solid var(--border-color); color: var(--text-muted);
+                padding: 10px 22px; font-family: "Montserrat", sans-serif; font-size: 0.85rem; font-weight: 700;
+                text-transform: uppercase; border-radius: 50px; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: var(--shadow-sm);
             }
-            .btn-filter:hover {
-                border-color: var(--brand-red);
-                color: var(--brand-red);
-            }
-            .btn-filter.active { 
-                background: var(--brand-red); 
-                color: var(--brand-white); 
-                border-color: var(--brand-red);
-                box-shadow: 0 4px 10px rgba(204, 0, 0, 0.2);
-            }
+            .btn-filter:hover { border-color: var(--brand-red); color: var(--brand-red); transform: translateY(-2px); }
+            .btn-filter.active { background: var(--brand-red); color: var(--brand-white); border-color: var(--brand-red); box-shadow: 0 6px 15px var(--brand-red-glow); }
 
             /* --- LISTA DE PRODUCTOS --- */
-            .list-wrapper { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+            .list-wrapper { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
             
             .list-header {
-                display: grid; grid-template-columns: 160px 1fr 140px 180px; padding: 15px 25px;
-                font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted);
-                border-bottom: 2px solid var(--brand-red);
-                margin-bottom: 15px;
+                display: grid; 
+                grid-template-columns: 140px 1fr 130px 160px 140px; 
+                padding: 15px 25px; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; 
+                letter-spacing: 1.5px; color: var(--text-muted); border-bottom: 3px solid var(--brand-red); margin-bottom: 20px;
             }
-            @media (max-width: 768px) { .list-header { display: none; } }
+            @media (max-width: 992px) { .list-header { display: none; } }
 
-            .list-container {
-                display: flex; flex-direction: column; gap: 12px;
-            }
+            .list-container { display: flex; flex-direction: column; gap: 15px; }
 
             .list-item {
-                display: grid; grid-template-columns: 160px 1fr 140px 180px; align-items: center;
-                padding: 20px 25px; 
-                background: var(--brand-white); 
-                border-radius: 8px;
-                border: 1px solid var(--border-color);
-                box-shadow: var(--shadow-sm);
-                transition: transform 0.2s, box-shadow 0.2s;
+                display: grid; grid-template-columns: 140px 1fr 130px 160px 140px; align-items: center;
+                padding: 20px 25px; background: var(--brand-white); border-radius: 12px;
+                border: 1px solid var(--border-color); border-left: 5px solid transparent; 
+                box-shadow: var(--shadow-sm); transition: all 0.3s ease;
             }
             .list-item:hover { 
-                transform: translateY(-2px);
-                box-shadow: var(--shadow-md);
-                border-color: #ffcccc;
+                transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: #ffcccc; border-left: 5px solid var(--brand-red); 
             }
 
-            .col-code {
-                font-family: "Roboto Mono", monospace;
-                font-size: 1.25rem;
-                font-weight: 800;
-                color: var(--brand-red);
-            }
+            .col-code { font-family: "Roboto Mono", monospace; font-size: 1.3rem; font-weight: 900; color: var(--brand-red); }
 
             /* --- MINIATURAS (THUMBNAILS) --- */
-            .col-desc { display: flex; align-items: center; gap: 15px; padding-right: 15px; }
-            
-            .thumb-img {
-                width: 55px;
-                height: 55px;
-                object-fit: cover;
-                border-radius: 6px;
-                border: 1px solid var(--border-color);
-                cursor: pointer;
-                transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-                flex-shrink: 0;
-            }
-            .thumb-img:hover {
-                transform: scale(1.1);
-                box-shadow: 0 4px 10px rgba(204, 0, 0, 0.3);
-                border-color: var(--brand-red);
-            }
-            .thumb-placeholder {
-                width: 55px;
-                height: 55px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: var(--bg-light);
-                border: 1px solid var(--border-color);
-                border-radius: 6px;
-                color: #ced4da;
-                font-size: 1.2rem;
-                flex-shrink: 0;
-            }
+            .col-desc { display: flex; align-items: center; gap: 18px; padding-right: 15px; }
+            .thumb-img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-color); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; flex-shrink: 0; }
+            .thumb-img:hover { transform: scale(1.15); box-shadow: 0 6px 15px var(--brand-red-glow); border-color: var(--brand-red); }
+            .thumb-placeholder { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; background: var(--bg-light); border: 2px dashed var(--border-color); border-radius: 8px; color: #ced4da; font-size: 1.3rem; flex-shrink: 0; }
 
-            .title-text-group { display: flex; flex-direction: column; gap: 4px; }
-            .product-title { font-size: 1rem; font-weight: 700; color: var(--text-main); text-transform: uppercase; line-height: 1.3; }
-            .product-subcodes { font-family: "Roboto Mono", monospace; font-size: 0.8rem; color: var(--text-muted); }
+            .title-text-group { display: flex; flex-direction: column; gap: 6px; }
+            .product-title { font-size: 1.05rem; font-weight: 800; color: var(--text-main); text-transform: uppercase; line-height: 1.3; }
+            .product-subcodes { font-family: "Roboto Mono", monospace; font-size: 0.85rem; color: var(--text-muted); font-weight: 500;}
 
             .col-brand { display: flex; align-items: center; }
-            .brand-badge {
-                display: inline-block; padding: 5px 12px; font-size: 0.75rem; font-weight: 700;
-                border-radius: 50px; background: #fff5f5; color: var(--brand-red); 
-                border: 1px solid rgba(204, 0, 0, 0.2); text-transform: uppercase; letter-spacing: 0.5px;
-            }
+            .brand-badge { display: inline-block; padding: 6px 14px; font-size: 0.75rem; font-weight: 800; border-radius: 8px; background: #2b2b2b; color: var(--brand-white); text-transform: uppercase; letter-spacing: 1px; }
 
-            .col-price { text-align: right; display: flex; flex-direction: column; justify-content: center; }
-            .price-main { font-family: "Montserrat", sans-serif; font-size: 1.4rem; font-weight: 800; color: var(--text-main); }
-            .price-fact { font-size: 0.8rem; color: var(--brand-red); font-weight: 700; margin-top: 4px; }
+            /* --- COLUMNAS DE PRECIO (NUEVO DISEÑO JERÁRQUICO) --- */
+            .col-price { padding-right: 15px; display: flex; align-items: center; justify-content: flex-end; }
+            .col-price-fact { padding-left: 15px; display: flex; align-items: center; justify-content: flex-end; }
+            
+            /* CAJA PRECIO NORMAL (El protagonista) */
+            .price-box {
+                display: flex; flex-direction: column; align-items: center; justify-content: center;
+                padding: 10px 15px; border-radius: 8px; text-align: center; min-width: 130px;
+            }
+            .price-box.normal {
+                background: var(--text-main); /* Fondo oscuro muy elegante y visible */
+                color: var(--brand-white);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                transform: scale(1.05); /* Ligeramente más grande */
+            }
+            .price-box.normal .lbl { font-size: 0.65rem; text-transform: uppercase; font-weight: 700; opacity: 0.8; letter-spacing: 1px; margin-bottom: 2px;}
+            .price-box.normal .val { font-size: 1.3rem; font-weight: 900; font-family: "Montserrat", sans-serif; }
+
+            /* CAJA PRECIO FACTURADO (Secundario) */
+            .price-box.facturado {
+                background: transparent;
+                border: 2px dashed rgba(204, 0, 0, 0.3); /* Borde sutil rojo */
+                color: var(--brand-red);
+            }
+            .price-box.facturado .lbl { font-size: 0.65rem; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; margin-bottom: 2px; opacity: 0.7;}
+            .price-box.facturado .val { font-size: 1.15rem; font-weight: 800; font-family: "Montserrat", sans-serif; }
 
             /* --- MODAL IMAGEN GRANDE --- */
-            #imageModal {
-                display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.95);
-                z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(5px);
-            }
-            #imageModal img { max-width: 90%; max-height: 80vh; border: 2px solid var(--border-color); border-radius: 12px; box-shadow: var(--shadow-md); }
+            #imageModal { display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.95); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(8px); }
+            #imageModal img { max-width: 90%; max-height: 80vh; border: 4px solid var(--brand-white); border-radius: 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); }
             .close-btn { position: absolute; top: 25px; right: 35px; font-size: 3rem; color: var(--text-main); font-weight: 300; cursor: pointer; transition: 0.2s; }
-            .close-btn:hover { color: var(--brand-red); }
+            .close-btn:hover { color: var(--brand-red); transform: scale(1.1); }
 
             /* --- RESPONSIVE MÓVIL --- */
-            @media (max-width: 768px) {
-                .list-item { 
-                    grid-template-columns: 1fr; gap: 15px; padding: 20px; 
-                }
-                .list-item-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px dashed var(--border-color); padding-bottom: 12px; margin-bottom: 5px;}
-                .col-code { font-size: 1.3rem; }
-                .col-price { text-align: right; }
-                .price-main { font-size: 1.3rem; }
+            @media (max-width: 992px) {
+                .list-item { grid-template-columns: 1fr; gap: 15px; padding: 22px; }
+                .list-item-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px dashed var(--border-color); padding-bottom: 15px; margin-bottom: 5px;}
+                .col-code { font-size: 1.4rem; }
                 .col-brand { margin-top: 5px; }
+                .col-price, .col-price-fact { display: none; } 
+                
+                /* Cajas de precios independientes para celulares */
+                .mobile-prices { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color); }
+                .mobile-price-box { padding: 12px 10px; border-radius: 8px; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+                
+                .mobile-price-box.normal { background: var(--text-main); color: var(--brand-white); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+                .mobile-price-box.normal .lbl { font-size: 0.7rem; text-transform: uppercase; font-weight: 700; opacity: 0.8; margin-bottom: 3px; letter-spacing: 1px;}
+                .mobile-price-box.normal .val { font-size: 1.3rem; font-weight: 900; }
+
+                .mobile-price-box.facturado { background: transparent; border: 2px dashed rgba(204, 0, 0, 0.3); color: var(--brand-red); }
+                .mobile-price-box.facturado .lbl { font-size: 0.7rem; text-transform: uppercase; font-weight: 800; opacity: 0.7; margin-bottom: 3px; letter-spacing: 1px;}
+                .mobile-price-box.facturado .val { font-size: 1.15rem; font-weight: 800; }
             }
 
-            .catalog-footer { max-width: 1100px; margin: 30px auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
-            .status-online { display: flex; align-items: center; gap: 6px; color: var(--brand-red); font-weight: 700; }
+            .catalog-footer { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; font-weight: 700; color: var(--text-muted); }
+            .status-online { display: flex; align-items: center; gap: 8px; color: var(--brand-red); font-weight: 800; }
         </style>
     </head>
     <body>
 
         <header>
             <h1>IMPORTADORA CALI</h1>
-            <div class="subtitle">Lista de Precios y Existencias</div>
+            <div class="subtitle">Buscador Digital de Precios</div>
         </header>
 
         <div class="sticky-nav">
             <div class="controls-wrapper">
                 <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass" style="color: var(--brand-red); margin-right: 15px; font-size: 1.2rem;"></i>
+                    <i class="fa-solid fa-magnifying-glass" style="color: var(--brand-red); margin-right: 18px; font-size: 1.4rem;"></i>
                     <input type="text" id="searchInput" placeholder="Escribe el código, marca o descripción..." oninput="filtrar()" />
                 </div>
 
                 <div class="filter-tags" id="filterTags">
                     <button class="btn-filter active" onclick="cambiarFiltro(this, '')">Todos</button>
-                    <button class="btn-filter" onclick="cambiarFiltro(this, 'LIONPOWER')">NUEVO.Lionpower</button>
-                    <button class="btn-filter" onclick="cambiarFiltro(this, 'OUJUN')">NUEVO.Zhejiang(OUJUN)</button>
-
+                    <button class="btn-filter" onclick="cambiarFiltro(this, 'OUJUN.')">nuevo.OUJUN</button>
+                    <button class="btn-filter" onclick="cambiarFiltro(this, 'SACHS.')">nuevo.SACHS</button>
+                    <button class="btn-filter" onclick="cambiarFiltro(this, 'DT.')">nuevo.DT</button>
+                    <button class="btn-filter" onclick="cambiarFiltro(this, 'VL.')">nuevo.VL</button>
+                    <button class="btn-filter" onclick="cambiarFiltro(this, 'ALLMAX.')">nuevo.ALLMAX</button>
                 </div>
             </div>
         </div>
@@ -268,11 +240,12 @@
                 <div>Código</div>
                 <div>Descripción del Repuesto</div>
                 <div>Marca</div>
-                <div style="text-align: right;">Precio</div>
+                <div style="text-align: center;">Precio</div>
+                <div style="text-align: center;">Impuestos</div>
             </div>
             <div class="list-container" id="listaProductos">
-                <div style="padding: 60px; text-align: center; color: var(--text-muted); font-weight: 500;">
-                    <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2rem; color: var(--brand-red); margin-bottom: 15px; display: block;"></i>
+                <div style="padding: 80px; text-align: center; color: var(--text-muted); font-weight: 600;">
+                    <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2.5rem; color: var(--brand-red); margin-bottom: 20px; display: block;"></i>
                     Conectando con el inventario...
                 </div>
             </div>
@@ -288,75 +261,53 @@
             <img id="modalImg" src="" onclick="event.stopPropagation()" />
         </div>
 
-
     <script>
-            // URL de tu Apps Script
             const API_WEB_URL = 'https://script.google.com/macros/s/AKfycbxC6vxC92O_npzFgzRbxAKBjsDcyPY-d15nZWDElpxKke33DPskFFZD-xh-kfGBT5Vt/exec';
             
             let productos = [];
             let filtroMarcaActual = "";
 
-            // --- SISTEMA DE CONEXIÓN Y RESPALDO ---
             async function cargarDatosDesdeSheets() {
-                // 1. Detectar si el celular/PC está sin internet desde el principio
                 if (!navigator.onLine) {
                     cargarRespaldoLocal();
                     return;
                 }
-
                 try {
-                    const respuesta = await fetch(API_WEB_URL, {
-                        method: 'GET',
-                        mode: 'cors',
-                        redirect: 'follow'
-                    });
-                    
+                    const respuesta = await fetch(API_WEB_URL, { method: 'GET', mode: 'cors', redirect: 'follow' });
                     if (respuesta.ok) {
                         const datosJson = await respuesta.json();
                         if (datosJson && datosJson.length > 0) {
-                            guardarRespaldoLocal(datosJson); // Guarda los datos en la memoria
+                            guardarRespaldoLocal(datosJson);
                             procesarYMostrar(datosJson);
                             return;
                         }
                     }
                     throw new Error("Forzando Plan B");
-                    
                 } catch (error) {
-                    ejecutarPlanB_JSONP(); // Si el método normal falla, intentamos el Plan B
+                    ejecutarPlanB_JSONP();
                 }
             }
 
             function ejecutarPlanB_JSONP() {
                 const viejoScript = document.getElementById('jsonp-engine');
                 if (viejoScript) viejoScript.remove();
-
                 const script = document.createElement('script');
                 script.id = 'jsonp-engine';
                 script.src = API_WEB_URL + '?callback=recibirDatos&nocache=' + new Date().getTime();
-                
-                script.onerror = function() {
-                    // Si el Plan B también falla (se cortó el internet a la mitad), cargamos el respaldo
-                    cargarRespaldoLocal();
-                };
+                script.onerror = function() { cargarRespaldoLocal(); };
                 document.body.appendChild(script);
             }
 
             function recibirDatos(datosJson) {
-                guardarRespaldoLocal(datosJson); // Guarda los datos
+                guardarRespaldoLocal(datosJson);
                 procesarYMostrar(datosJson);
             }
 
-            // --- FUNCIONES DE MEMORIA (OFFLINE) ---
             function guardarRespaldoLocal(datosJson) {
-                // Guarda la lista en el disco duro del celular/PC
                 localStorage.setItem('respaldoInventarioCali', JSON.stringify(datosJson));
-                
-                // Guarda la fecha y hora de la última actualización
                 const fecha = new Date();
                 const horaFormat = fecha.toLocaleDateString() + ' a las ' + fecha.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                 localStorage.setItem('fechaRespaldoCali', horaFormat);
-
-                // Mostramos estado Online
                 const statusDiv = document.querySelector('.status-online');
                 statusDiv.innerHTML = `<i class="fa-solid fa-cloud-check"></i> Catálogo Actualizado`;
                 statusDiv.style.color = "var(--brand-red)";
@@ -365,36 +316,22 @@
             function cargarRespaldoLocal() {
                 const datosGuardados = localStorage.getItem('respaldoInventarioCali');
                 const fechaGuardada = localStorage.getItem('fechaRespaldoCali');
-
                 if (datosGuardados) {
-                    // Si hay datos guardados, mostramos el estado Offline con advertencia visual
                     const statusDiv = document.querySelector('.status-online');
                     statusDiv.innerHTML = `<i class="fa-solid fa-wifi-slash"></i> Offline - Respaldo del ${fechaGuardada}`;
-                    statusDiv.style.color = "#d97706"; // Color naranja elegante para advertir
-                    
+                    statusDiv.style.color = "#d97706"; 
                     procesarYMostrar(JSON.parse(datosGuardados));
                 } else {
-                    // Si no hay internet y NUNCA se ha abierto la página antes
-                    document.getElementById("listaProductos").innerHTML = `
-                        <div style="padding: 60px; text-align: center; color: var(--text-muted);">
-                            <i class="fa-solid fa-wifi-slash" style="font-size: 2.5rem; color: #d97706; margin-bottom: 15px; display: block;"></i>
-                            <b>No hay conexión a internet.</b><br><br>
-                            Aún no hay un respaldo guardado. Conéctate a internet al menos una vez para guardar el catálogo en tu dispositivo.
-                        </div>`;
+                    document.getElementById("listaProductos").innerHTML = `<div style="padding: 80px; text-align: center; color: var(--text-muted);"><i class="fa-solid fa-wifi-slash" style="font-size: 3rem; color: #d97706; margin-bottom: 20px; display: block;"></i><b style="font-size: 1.2rem;">No hay conexión a internet.</b><br><br>Aún no hay un respaldo guardado.</div>`;
                     document.getElementById("productCount").innerText = "Mostrando 0 productos";
                 }
             }
 
-            // --- PROCESAMIENTO Y VISUALIZACIÓN ---
             function procesarYMostrar(datosJson) {
                 if (!datosJson || datosJson.length === 0) {
-                    document.getElementById("listaProductos").innerHTML = `
-                        <div style="padding: 60px; text-align: center; color: var(--text-muted);">
-                            La base de datos está vacía.
-                        </div>`;
+                    document.getElementById("listaProductos").innerHTML = `<div style="padding: 80px; text-align: center; color: var(--text-muted); font-size: 1.2rem; font-weight: 600;">La base de datos está vacía.</div>`;
                     return;
                 }
-
                 productos = datosJson.map(p => {
                     return {
                         codCali: p.codCali ? String(p.codCali).trim() : '---',
@@ -405,13 +342,7 @@
                         img: p.img ? String(p.img).trim() : ''
                     };
                 });
-                
                 filtrar();
-            }
-
-            function obtenerClaseMarca(marca) {
-                if (!marca) return "";
-                return marca.toLowerCase().trim().replace(/\s+/g, '');
             }
 
             function abrirImagen(url) {
@@ -419,29 +350,24 @@
                 document.getElementById("modalImg").src = url;
                 document.getElementById("imageModal").style.display = "flex";
             }
-
-            function cerrarImagen(e) {
-                document.getElementById("imageModal").style.display = "none";
-            }
+            function cerrarImagen(e) { document.getElementById("imageModal").style.display = "none"; }
 
             function render(data) {
                 const container = document.getElementById("listaProductos");
                 if (data.length === 0) {
-                    container.innerHTML = `<div style="padding: 60px; text-align: center; color: var(--text-muted); font-weight: 500;">No se encontraron repuestos con esa búsqueda.</div>`;
+                    container.innerHTML = `<div style="padding: 80px; text-align: center; color: var(--text-muted); font-size: 1.2rem; font-weight: 600;">No se encontraron repuestos con esa búsqueda.</div>`;
                     document.getElementById("productCount").innerText = "Mostrando 0 productos";
                     return;
                 }
 
-                const esMovil = window.innerWidth <= 768;
+                const esMovil = window.innerWidth <= 992;
 
                 container.innerHTML = data.map(p => {
                     const unitPrice = p.pUnitario || 0;
                     const pFact = (unitPrice * 1.09).toFixed(2);
                     const marcaLabel = p.marca || "SIN MARCA";
                     const searchString = `${p.codCali} ${p.desc} ${p.marca} ${p.otrosCod || ''}`.toLowerCase();
-
                     const tieneImagen = p.img && p.img.startsWith('http');
-                    
                     const thumbHtml = tieneImagen 
                         ? `<img src="${p.img}" class="thumb-img" onclick="abrirImagen('${p.img}')" title="Clic para agrandar" loading="lazy">`
                         : `<div class="thumb-placeholder" title="Sin foto disponible"><i class="fa-solid fa-camera-slash"></i></div>`;
@@ -451,10 +377,7 @@
                         <div class="list-item" data-search="${searchString}">
                             <div class="list-item-header">
                                 <div class="col-code">${p.codCali}</div>
-                                <div class="col-price">
-                                    <span class="price-main">Bs ${unitPrice}</span>
-                                    <span class="price-fact">FACT: Bs ${pFact}</span>
-                                </div>
+                                <div class="col-brand"><span class="brand-badge">${marcaLabel}</span></div>
                             </div>
                             <div class="col-desc">
                                 ${thumbHtml}
@@ -463,8 +386,15 @@
                                     <span class="product-subcodes">${p.otrosCod || "---"}</span>
                                 </div>
                             </div>
-                            <div class="col-brand">
-                                <span class="brand-badge">${marcaLabel}</span>
+                            <div class="mobile-prices">
+                                <div class="mobile-price-box normal">
+                                    <span class="lbl">NORMAL (S/F)</span>
+                                    <span class="val">Bs ${unitPrice.toFixed(2)}</span>
+                                </div>
+                                <div class="mobile-price-box facturado">
+                                    <span class="lbl">C / FACTURA</span>
+                                    <span class="val">Bs ${pFact}</span>
+                                </div>
                             </div>
                         </div>`;
                     } else {
@@ -482,8 +412,16 @@
                                 <span class="brand-badge">${marcaLabel}</span>
                             </div>
                             <div class="col-price">
-                                <span class="price-main">Bs ${unitPrice}</span>
-                                <span class="price-fact">FACT: Bs ${pFact}</span>
+                                <div class="price-box normal">
+                                    <span class="lbl">Normal (S/F)</span>
+                                    <span class="val">Bs ${unitPrice.toFixed(2)}</span>
+                                </div>
+                            </div>
+                            <div class="col-price-fact">
+                                <div class="price-box facturado">
+                                    <span class="lbl">C / Factura</span>
+                                    <span class="val">Bs ${pFact}</span>
+                                </div>
                             </div>
                         </div>`;
                     }
@@ -513,24 +451,21 @@
 
             let lastWidth = window.innerWidth;
             window.addEventListener('resize', () => {
-                if ((window.innerWidth <= 768 && lastWidth > 768) || (window.innerWidth > 768 && lastWidth <= 768)) {
+                if ((window.innerWidth <= 992 && lastWidth > 992) || (window.innerWidth > 992 && lastWidth <= 992)) {
                     lastWidth = window.innerWidth;
                     filtrar();
                 }
             });
 
-            // Detectar cambios en la conexión de internet en tiempo real
             window.addEventListener('online', cargarDatosDesdeSheets);
             window.addEventListener('offline', cargarRespaldoLocal);
-
             window.onload = () => cargarDatosDesdeSheets();
 
-            // CONEXIÓN CON EL SERVICE WORKER PARA MODO OFFLINE (Visual)
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
                     navigator.serviceWorker.register('./sw.js')
-                        .then(reg => console.log('Service Worker registrado correctamente.', reg))
-                        .catch(err => console.error('Error al registrar el Service Worker:', err));
+                        .then(reg => console.log('SW registrado.'))
+                        .catch(err => console.error('Error SW:', err));
                 });
             }
         </script>
