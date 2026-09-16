@@ -352,83 +352,92 @@
             }
             function cerrarImagen(e) { document.getElementById("imageModal").style.display = "none"; }
 
-            function render(data) {
-                const container = document.getElementById("listaProductos");
-                if (data.length === 0) {
-                    container.innerHTML = `<div style="padding: 80px; text-align: center; color: var(--text-muted); font-size: 1.2rem; font-weight: 600;">No se encontraron repuestos con esa búsqueda.</div>`;
-                    document.getElementById("productCount").innerText = "Mostrando 0 productos";
-                    return;
-                }
+           function render(data) {
+    const container = document.getElementById("listaProductos");
+    if (data.length === 0) {
+        container.innerHTML = `<div style="padding: 80px; text-align: center; color: var(--text-muted); font-size: 1.2rem; font-weight: 600;">No se encontraron repuestos con esa búsqueda.</div>`;
+        document.getElementById("productCount").innerText = "Mostrando 0 productos";
+        return;
+    }
 
-                const esMovil = window.innerWidth <= 992;
+    const esMovil = window.innerWidth <= 992;
 
-                container.innerHTML = data.map(p => {
-                    const unitPrice = p.pUnitario || 0;
-                    const pFact = (unitPrice * 1.09).toFixed(2);
-                    const marcaLabel = p.marca || "SIN MARCA";
-                    const searchString = `${p.codCali} ${p.desc} ${p.marca} ${p.otrosCod || ''}`.toLowerCase();
-                    const tieneImagen = p.img && p.img.startsWith('http');
-                    const thumbHtml = tieneImagen 
-                        ? `<img src="${p.img}" class="thumb-img" onclick="abrirImagen('${p.img}')" title="Clic para agrandar" loading="lazy">`
-                        : `<div class="thumb-placeholder" title="Sin foto disponible"><i class="fa-solid fa-camera-slash"></i></div>`;
+    // EL SECRETO: Cortar la lista para dibujar máximo 50 elementos a la vez
+    const limiteMostrado = 50;
+    const datosCortados = data.slice(0, limiteMostrado);
 
-                    if (esMovil) {
-                        return `
-                        <div class="list-item" data-search="${searchString}">
-                            <div class="list-item-header">
-                                <div class="col-code">${p.codCali}</div>
-                                <div class="col-brand"><span class="brand-badge">${marcaLabel}</span></div>
-                            </div>
-                            <div class="col-desc">
-                                ${thumbHtml}
-                                <div class="title-text-group">
-                                    <span class="product-title">${p.desc}</span>
-                                    <span class="product-subcodes">${p.otrosCod || "---"}</span>
-                                </div>
-                            </div>
-                            <div class="mobile-prices">
-                                <div class="mobile-price-box normal">
-                                    <span class="lbl">NORMAL (S/F)</span>
-                                    <span class="val">Bs ${unitPrice.toFixed(2)}</span>
-                                </div>
-                                <div class="mobile-price-box facturado">
-                                    <span class="lbl">C / FACTURA</span>
-                                    <span class="val">Bs ${pFact}</span>
-                                </div>
-                            </div>
-                        </div>`;
-                    } else {
-                        return `
-                        <div class="list-item" data-search="${searchString}">
-                            <div class="col-code">${p.codCali}</div>
-                            <div class="col-desc">
-                                ${thumbHtml}
-                                <div class="title-text-group">
-                                    <span class="product-title">${p.desc}</span>
-                                    <span class="product-subcodes">${p.otrosCod || "---"}</span>
-                                </div>
-                            </div>
-                            <div class="col-brand">
-                                <span class="brand-badge">${marcaLabel}</span>
-                            </div>
-                            <div class="col-price">
-                                <div class="price-box normal">
-                                    <span class="lbl">Normal (S/F)</span>
-                                    <span class="val">Bs ${unitPrice.toFixed(2)}</span>
-                                </div>
-                            </div>
-                            <div class="col-price-fact">
-                                <div class="price-box facturado">
-                                    <span class="lbl">C / Factura</span>
-                                    <span class="val">Bs ${pFact}</span>
-                                </div>
-                            </div>
-                        </div>`;
-                    }
-                }).join("");
+    container.innerHTML = datosCortados.map(p => {
+        const unitPrice = p.pUnitario || 0;
+        const pFact = (unitPrice * 1.09).toFixed(2);
+        const marcaLabel = p.marca || "SIN MARCA";
+        const searchString = `${p.codCali} ${p.desc} ${p.marca} ${p.otrosCod || ''}`.toLowerCase();
+        const tieneImagen = p.img && p.img.startsWith('http');
+        const thumbHtml = tieneImagen 
+            ? `<img src="${p.img}" class="thumb-img" onclick="abrirImagen('${p.img}')" title="Clic para agrandar" loading="lazy">`
+            : `<div class="thumb-placeholder" title="Sin foto disponible"><i class="fa-solid fa-camera-slash"></i></div>`;
 
-                document.getElementById("productCount").innerText = `Mostrando ${data.length} de ${productos.length} repuestos`;
-            }
+        if (esMovil) {
+            return `
+            <div class="list-item" data-search="${searchString}">
+                <div class="list-item-header">
+                    <div class="col-code">${p.codCali}</div>
+                    <div class="col-brand"><span class="brand-badge">${marcaLabel}</span></div>
+                </div>
+                <div class="col-desc">
+                    ${thumbHtml}
+                    <div class="title-text-group">
+                        <span class="product-title">${p.desc}</span>
+                        <span class="product-subcodes">${p.otrosCod || "---"}</span>
+                    </div>
+                </div>
+                <div class="mobile-prices">
+                    <div class="mobile-price-box normal">
+                        <span class="lbl">NORMAL (S/F)</span>
+                        <span class="val">Bs ${unitPrice.toFixed(2)}</span>
+                    </div>
+                    <div class="mobile-price-box facturado">
+                        <span class="lbl">C / FACTURA</span>
+                        <span class="val">Bs ${pFact}</span>
+                    </div>
+                </div>
+            </div>`;
+        } else {
+            return `
+            <div class="list-item" data-search="${searchString}">
+                <div class="col-code">${p.codCali}</div>
+                <div class="col-desc">
+                    ${thumbHtml}
+                    <div class="title-text-group">
+                        <span class="product-title">${p.desc}</span>
+                        <span class="product-subcodes">${p.otrosCod || "---"}</span>
+                    </div>
+                </div>
+                <div class="col-brand">
+                    <span class="brand-badge">${marcaLabel}</span>
+                </div>
+                <div class="col-price">
+                    <div class="price-box normal">
+                        <span class="lbl">Normal (S/F)</span>
+                        <span class="val">Bs ${unitPrice.toFixed(2)}</span>
+                    </div>
+                </div>
+                <div class="col-price-fact">
+                    <div class="price-box facturado">
+                        <span class="lbl">C / Factura</span>
+                        <span class="val">Bs ${pFact}</span>
+                    </div>
+                </div>
+            </div>`;
+        }
+    }).join("");
+
+    // Actualizar el contador para mostrar cuántos se ven realmente
+    let textoResultados = `Mostrando ${datosCortados.length} repuestos`;
+    if (data.length > limiteMostrado) {
+        textoResultados = `Mostrando ${datosCortados.length} de ${data.length} coincidencias. Usa el buscador para más precisión.`;
+    }
+    document.getElementById("productCount").innerText = textoResultados;
+}
 
             function filtrar() {
                 const q = document.getElementById("searchInput").value.toLowerCase();
@@ -459,15 +468,16 @@
 
             window.addEventListener('online', cargarDatosDesdeSheets);
             window.addEventListener('offline', cargarRespaldoLocal);
-            window.onload = () => cargarDatosDesdeSheets();
-
-            if ('serviceWorker' in navigator) {
-                window.addEventListener('load', () => {
-                    navigator.serviceWorker.register('./sw.js')
-                        .then(reg => console.log('SW registrado.'))
-                        .catch(err => console.error('Error SW:', err));
-                });
-            }
+           window.onload = () => {
+    // 1. Mostrar los datos guardados en memoria INMEDIATAMENTE al entrar
+    const datosGuardados = localStorage.getItem('respaldoInventarioCali');
+    if (datosGuardados) {
+        procesarYMostrar(JSON.parse(datosGuardados));
+        document.querySelector('.status-online').innerHTML = `<i class="fa-solid fa-rotate fa-spin"></i> Actualizando base de datos...`;
+    }
+    // 2. Conectarse a Sheets de forma silenciosa para ver si hay cambios nuevos
+    cargarDatosDesdeSheets();
+};
         </script>
     </body>
 </html>
