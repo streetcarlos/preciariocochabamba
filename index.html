@@ -5,22 +5,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Importadora Cali | Catálogo de Precios</title>
         <link rel="icon" type="image/svg+xml" href="logo.svg" />
-        <meta name="theme-color" content="#cc0000">
+        <meta name="theme-color" content="#111827">
         
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
         <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500;700;900&family=Montserrat:wght@400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet" />
         <style>
             :root {
-                --brand-red: #cc0000;
-                --brand-red-hover: #a30000;
-                --brand-red-glow: rgba(204, 0, 0, 0.15);
+                --brand-red: #da291c; /* Rojo más vibrante e industrial */
+                --brand-red-hover: #b92015;
+                --brand-red-glow: rgba(218, 41, 28, 0.2);
                 --brand-white: #ffffff;
-                --bg-light: #f4f6f9;
-                --text-main: #1a1a1a;
-                --text-muted: #6c757d;
-                --border-color: #e2e8f0;
-                --shadow-sm: 0 4px 6px rgba(0,0,0,0.03);
-                --shadow-md: 0 10px 25px rgba(0,0,0,0.08);
+                --bg-light: #f3f4f6; /* Gris muy suave */
+                --text-main: #111827; /* Casi negro, más elegante */
+                --text-muted: #6b7280;
+                --border-color: #e5e7eb;
+                --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+                --shadow-md: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+                --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(218, 41, 28, 0.04);
             }
 
             * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -29,48 +30,61 @@
                 font-family: "Montserrat", sans-serif;
                 background-color: var(--bg-light);
                 color: var(--text-main);
-                padding-bottom: 60px;
+                padding-bottom: 80px;
                 -webkit-font-smoothing: antialiased;
             }
 
-            /* --- HEADER CORPORATIVO --- */
+            /* --- HEADER CORPORATIVO DARK PREMIUM --- */
             header {
-                background-color: var(--brand-white);
-                padding: 40px 20px 30px;
+                background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+                padding: 50px 20px 40px;
                 text-align: center;
-                border-bottom: 1px solid var(--border-color);
-                box-shadow: var(--shadow-sm);
+                border-bottom: 4px solid var(--brand-red);
+                box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+                position: relative;
+                overflow: hidden;
             }
             
+            /* Decoración sutil de fondo en el header */
+            header::before {
+                content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+                background: radial-gradient(circle, rgba(218,41,28,0.05) 0%, transparent 60%);
+                pointer-events: none;
+            }
+
             header h1 {
                 font-family: "Bebas Neue", sans-serif;
-                font-size: clamp(3rem, 8vw, 5rem);
-                letter-spacing: 4px;
-                color: var(--brand-red);
+                font-size: clamp(3.5rem, 8vw, 5.5rem);
+                letter-spacing: 5px;
+                color: var(--brand-white);
                 line-height: 1;
-                margin-bottom: 5px;
-                text-shadow: 0 2px 10px var(--brand-red-glow);
+                margin-bottom: 8px;
+                text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+                position: relative;
             }
+            
+            header h1 span { color: var(--brand-red); }
 
             header .subtitle {
-                color: var(--text-main);
-                font-size: 0.95rem;
-                font-weight: 700;
+                color: #9ca3af;
+                font-size: 1rem;
+                font-weight: 600;
                 text-transform: uppercase;
-                letter-spacing: 6px;
-                opacity: 0.7;
+                letter-spacing: 8px;
+                position: relative;
             }
 
-            /* --- BUSCADOR ANCLADO (STICKY) --- */
+            /* --- BUSCADOR GLASSMORPHISM --- */
             .sticky-nav {
                 position: sticky;
                 top: 0;
                 z-index: 1000;
-                background-color: rgba(244, 246, 249, 0.95);
-                backdrop-filter: blur(8px);
+                background-color: rgba(255, 255, 255, 0.85);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
                 padding: 20px;
-                border-bottom: 1px solid var(--border-color);
-                box-shadow: var(--shadow-sm);
+                border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
             }
 
             .controls-wrapper {
@@ -78,41 +92,41 @@
                 margin: 0 auto;
                 display: flex;
                 flex-direction: column;
-                gap: 15px;
+                gap: 18px;
             }
 
             .search-box {
                 background: var(--brand-white);
-                border: 2px solid transparent;
+                border: 2px solid var(--border-color);
                 display: flex;
                 align-items: center;
-                padding: 16px 28px;
-                border-radius: 50px;
-                transition: all 0.3s ease;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+                padding: 16px 30px;
+                border-radius: 16px; /* Bordes menos redondos, más modernos */
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: var(--shadow-sm);
             }
             .search-box:focus-within { 
                 border-color: var(--brand-red); 
-                box-shadow: 0 0 0 4px rgba(204, 0, 0, 0.1);
+                box-shadow: 0 0 0 4px var(--brand-red-glow), var(--shadow-md);
+                transform: translateY(-2px);
             }
 
             #searchInput {
                 flex: 1; background: transparent; border: none; color: var(--text-main);
-                font-size: 1.15rem; font-family: "Montserrat", sans-serif; font-weight: 600;
+                font-size: 1.1rem; font-family: "Montserrat", sans-serif; font-weight: 600;
                 outline: none; text-transform: uppercase;
             }
-            #searchInput::placeholder { color: #adb5bd; font-weight: 500; text-transform: none; }
+            #searchInput::placeholder { color: #9ca3af; font-weight: 500; text-transform: none; }
 
-            .filter-tags { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+            .filter-tags { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
             
             .btn-filter {
-                background: var(--brand-white); border: 1px solid var(--border-color); color: var(--text-muted);
-                padding: 10px 22px; font-family: "Montserrat", sans-serif; font-size: 0.85rem; font-weight: 700;
-                text-transform: uppercase; border-radius: 50px; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-                box-shadow: var(--shadow-sm);
+                background: transparent; border: 2px solid var(--border-color); color: var(--text-muted);
+                padding: 8px 20px; font-family: "Montserrat", sans-serif; font-size: 0.85rem; font-weight: 700;
+                text-transform: uppercase; border-radius: 10px; cursor: pointer; transition: all 0.25s ease;
             }
-            .btn-filter:hover { border-color: var(--brand-red); color: var(--brand-red); transform: translateY(-2px); }
-            .btn-filter.active { background: var(--brand-red); color: var(--brand-white); border-color: var(--brand-red); box-shadow: 0 6px 15px var(--brand-red-glow); }
+            .btn-filter:hover { border-color: var(--text-main); color: var(--text-main); }
+            .btn-filter.active { background: var(--text-main); color: var(--brand-white); border-color: var(--text-main); box-shadow: 0 4px 12px rgba(17, 24, 39, 0.2); }
 
             /* --- LISTA DE PRODUCTOS --- */
             .list-wrapper { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
@@ -120,108 +134,116 @@
             .list-header {
                 display: grid; 
                 grid-template-columns: 140px 1fr 130px 160px 140px; 
-                padding: 15px 25px; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; 
-                letter-spacing: 1.5px; color: var(--text-muted); border-bottom: 3px solid var(--brand-red); margin-bottom: 20px;
+                padding: 0 25px 15px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; 
+                letter-spacing: 2px; color: var(--text-muted); border-bottom: 2px solid var(--border-color); margin-bottom: 25px;
             }
             @media (max-width: 992px) { .list-header { display: none; } }
 
-            .list-container { display: flex; flex-direction: column; gap: 15px; }
+            .list-container { display: flex; flex-direction: column; gap: 18px; }
+
+            /* Animación de aparición */
+            @keyframes slideUpFade {
+                from { opacity: 0; transform: translateY(15px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
 
             .list-item {
                 display: grid; grid-template-columns: 140px 1fr 130px 160px 140px; align-items: center;
-                padding: 20px 25px; background: var(--brand-white); border-radius: 12px;
-                border: 1px solid var(--border-color); border-left: 5px solid transparent; 
-                box-shadow: var(--shadow-sm); transition: all 0.3s ease;
+                padding: 20px 25px; background: var(--brand-white); border-radius: 16px;
+                border: 1px solid rgba(255,255,255,0.8); border-left: 6px solid var(--border-color); 
+                box-shadow: var(--shadow-sm); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                animation: slideUpFade 0.4s ease forwards;
             }
             .list-item:hover { 
-                transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: #ffcccc; border-left: 5px solid var(--brand-red); 
+                transform: translateY(-4px) scale(1.005); box-shadow: var(--shadow-hover); 
+                border-left-color: var(--brand-red); z-index: 10;
             }
 
-            .col-code { font-family: "Roboto Mono", monospace; font-size: 1.3rem; font-weight: 900; color: var(--brand-red); }
+            .col-code { font-family: "Roboto Mono", monospace; font-size: 1.25rem; font-weight: 900; color: var(--text-main); }
 
             /* --- MINIATURAS (THUMBNAILS) --- */
-            .col-desc { display: flex; align-items: center; gap: 18px; padding-right: 15px; }
-            .thumb-img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-color); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; flex-shrink: 0; }
-            .thumb-img:hover { transform: scale(1.15); box-shadow: 0 6px 15px var(--brand-red-glow); border-color: var(--brand-red); }
-            .thumb-placeholder { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; background: var(--bg-light); border: 2px dashed var(--border-color); border-radius: 8px; color: #ced4da; font-size: 1.3rem; flex-shrink: 0; }
+            .col-desc { display: flex; align-items: center; gap: 20px; padding-right: 15px; }
+            .thumb-img { width: 65px; height: 65px; object-fit: cover; border-radius: 10px; border: 1px solid var(--border-color); cursor: pointer; transition: all 0.3s ease; flex-shrink: 0; background: var(--bg-light); }
+            .thumb-img:hover { transform: scale(1.2) rotate(-2deg); box-shadow: 0 8px 20px var(--brand-red-glow); border-color: var(--brand-red); }
+            .thumb-placeholder { width: 65px; height: 65px; display: flex; align-items: center; justify-content: center; background: var(--bg-light); border: 2px dashed #d1d5db; border-radius: 10px; color: #9ca3af; font-size: 1.4rem; flex-shrink: 0; }
 
-            .title-text-group { display: flex; flex-direction: column; gap: 6px; }
+            .title-text-group { display: flex; flex-direction: column; gap: 4px; }
             .product-title { font-size: 1.05rem; font-weight: 800; color: var(--text-main); text-transform: uppercase; line-height: 1.3; }
-            .product-subcodes { font-family: "Roboto Mono", monospace; font-size: 0.85rem; color: var(--text-muted); font-weight: 500;}
+            .product-subcodes { font-family: "Roboto Mono", monospace; font-size: 0.85rem; color: var(--text-muted); font-weight: 600;}
 
             .col-brand { display: flex; align-items: center; }
-            .brand-badge { display: inline-block; padding: 6px 14px; font-size: 0.75rem; font-weight: 800; border-radius: 8px; background: #2b2b2b; color: var(--brand-white); text-transform: uppercase; letter-spacing: 1px; }
+            .brand-badge { display: inline-block; padding: 6px 14px; font-size: 0.75rem; font-weight: 800; border-radius: 6px; background: #f3f4f6; color: var(--text-main); border: 1px solid var(--border-color); text-transform: uppercase; letter-spacing: 1.5px; }
 
-            /* --- COLUMNAS DE PRECIO (NUEVO DISEÑO JERÁRQUICO) --- */
+            /* --- COLUMNAS DE PRECIO --- */
             .col-price { padding-right: 15px; display: flex; align-items: center; justify-content: flex-end; }
             .col-price-fact { padding-left: 15px; display: flex; align-items: center; justify-content: flex-end; }
             
-            /* CAJA PRECIO NORMAL (El protagonista) */
             .price-box {
                 display: flex; flex-direction: column; align-items: center; justify-content: center;
-                padding: 10px 15px; border-radius: 8px; text-align: center; min-width: 130px;
+                padding: 12px 15px; border-radius: 12px; text-align: center; min-width: 140px;
+                transition: all 0.3s ease;
             }
             .price-box.normal {
-                background: var(--text-main); /* Fondo oscuro muy elegante y visible */
+                background: linear-gradient(145deg, #1f2937, #111827);
                 color: var(--brand-white);
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                transform: scale(1.05); /* Ligeramente más grande */
+                box-shadow: 0 6px 15px rgba(17,24,39,0.2);
             }
-            .price-box.normal .lbl { font-size: 0.65rem; text-transform: uppercase; font-weight: 700; opacity: 0.8; letter-spacing: 1px; margin-bottom: 2px;}
-            .price-box.normal .val { font-size: 1.3rem; font-weight: 900; font-family: "Montserrat", sans-serif; }
+            .price-box.normal .lbl { font-size: 0.65rem; text-transform: uppercase; font-weight: 800; color: #9ca3af; letter-spacing: 1.5px; margin-bottom: 4px;}
+            .price-box.normal .val { font-size: 1.35rem; font-weight: 900; font-family: "Montserrat", sans-serif; letter-spacing: -0.5px;}
 
-            /* CAJA PRECIO FACTURADO (Secundario) */
             .price-box.facturado {
-                background: transparent;
-                border: 2px dashed rgba(204, 0, 0, 0.3); /* Borde sutil rojo */
+                background: #fef2f2;
+                border: 2px solid #fecaca;
                 color: var(--brand-red);
             }
-            .price-box.facturado .lbl { font-size: 0.65rem; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; margin-bottom: 2px; opacity: 0.7;}
-            .price-box.facturado .val { font-size: 1.15rem; font-weight: 800; font-family: "Montserrat", sans-serif; }
+            .price-box.facturado .lbl { font-size: 0.65rem; text-transform: uppercase; font-weight: 800; letter-spacing: 1.5px; margin-bottom: 4px; color: #ef4444;}
+            .price-box.facturado .val { font-size: 1.2rem; font-weight: 800; font-family: "Montserrat", sans-serif; letter-spacing: -0.5px;}
 
             /* --- MODAL IMAGEN GRANDE --- */
-            #imageModal { display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.95); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(8px); }
-            #imageModal img { max-width: 90%; max-height: 80vh; border: 4px solid var(--brand-white); border-radius: 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); }
-            .close-btn { position: absolute; top: 25px; right: 35px; font-size: 3rem; color: var(--text-main); font-weight: 300; cursor: pointer; transition: 0.2s; }
-            .close-btn:hover { color: var(--brand-red); transform: scale(1.1); }
+            #imageModal { display: none; position: fixed; inset: 0; background: rgba(17, 24, 39, 0.9); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(10px); }
+            #imageModal img { max-width: 90%; max-height: 80vh; border: 4px solid var(--brand-white); border-radius: 16px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+            .close-btn { position: absolute; top: 30px; right: 40px; font-size: 3.5rem; color: var(--brand-white); font-weight: 300; cursor: pointer; transition: 0.2s; opacity: 0.7; }
+            .close-btn:hover { color: var(--brand-red); opacity: 1; transform: scale(1.1); }
 
             /* --- RESPONSIVE MÓVIL --- */
             @media (max-width: 992px) {
-                .list-item { grid-template-columns: 1fr; gap: 15px; padding: 22px; }
-                .list-item-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px dashed var(--border-color); padding-bottom: 15px; margin-bottom: 5px;}
-                .col-code { font-size: 1.4rem; }
-                .col-brand { margin-top: 5px; }
+                header { padding: 40px 20px 30px; }
+                .list-item { grid-template-columns: 1fr; gap: 15px; padding: 22px; border-left-width: 4px; }
+                .list-item-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 5px;}
+                .col-code { font-size: 1.3rem; }
+                .col-brand { margin-top: 0; }
+                .brand-badge { padding: 5px 10px; font-size: 0.7rem; }
                 .col-price, .col-price-fact { display: none; } 
                 
-                /* Cajas de precios independientes para celulares */
                 .mobile-prices { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color); }
-                .mobile-price-box { padding: 12px 10px; border-radius: 8px; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+                .mobile-price-box { padding: 12px 8px; border-radius: 10px; text-align: center; display: flex; flex-direction: column; justify-content: center; }
                 
-                .mobile-price-box.normal { background: var(--text-main); color: var(--brand-white); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
-                .mobile-price-box.normal .lbl { font-size: 0.7rem; text-transform: uppercase; font-weight: 700; opacity: 0.8; margin-bottom: 3px; letter-spacing: 1px;}
-                .mobile-price-box.normal .val { font-size: 1.3rem; font-weight: 900; }
+                .mobile-price-box.normal { background: linear-gradient(145deg, #1f2937, #111827); color: var(--brand-white); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+                .mobile-price-box.normal .lbl { font-size: 0.65rem; text-transform: uppercase; font-weight: 800; color: #9ca3af; margin-bottom: 4px; letter-spacing: 1px;}
+                .mobile-price-box.normal .val { font-size: 1.25rem; font-weight: 900; }
 
-                .mobile-price-box.facturado { background: transparent; border: 2px dashed rgba(204, 0, 0, 0.3); color: var(--brand-red); }
-                .mobile-price-box.facturado .lbl { font-size: 0.7rem; text-transform: uppercase; font-weight: 800; opacity: 0.7; margin-bottom: 3px; letter-spacing: 1px;}
+                .mobile-price-box.facturado { background: #fef2f2; border: 2px solid #fecaca; color: var(--brand-red); }
+                .mobile-price-box.facturado .lbl { font-size: 0.65rem; text-transform: uppercase; font-weight: 800; color: #ef4444; margin-bottom: 4px; letter-spacing: 1px;}
                 .mobile-price-box.facturado .val { font-size: 1.15rem; font-weight: 800; }
             }
 
-            .catalog-footer { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; font-weight: 700; color: var(--text-muted); }
+            .catalog-footer { max-width: 1200px; margin: 30px auto; padding: 20px; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; font-weight: 700; color: var(--text-muted); background: var(--brand-white); border-radius: 12px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);}
+            @media (max-width: 600px) { .catalog-footer { flex-direction: column; gap: 15px; text-align: center; } }
             .status-online { display: flex; align-items: center; gap: 8px; color: var(--brand-red); font-weight: 800; }
         </style>
     </head>
     <body>
 
         <header>
-            <h1>IMPORTADORA CALI</h1>
-            <div class="subtitle">lista de precios cochabamba</div>
+            <h1>IMPORTADORA <span>CALI</span></h1>
+            <div class="subtitle">Buscador Digital de Precios</div>
         </header>
 
         <div class="sticky-nav">
             <div class="controls-wrapper">
                 <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass" style="color: var(--brand-red); margin-right: 18px; font-size: 1.4rem;"></i>
-                    <input type="text" id="searchInput" placeholder="Escribe el código, marca o descripción..." oninput="filtrar()" />
+                    <i class="fa-solid fa-magnifying-glass" style="color: var(--text-muted); margin-right: 18px; font-size: 1.4rem;"></i>
+                    <input type="text" id="searchInput" placeholder="Buscar código, descripción o marca..." oninput="filtrar()" />
                 </div>
 
                 <div class="filter-tags" id="filterTags">
@@ -240,19 +262,19 @@
                 <div>Código</div>
                 <div>Descripción del Repuesto</div>
                 <div>Marca</div>
-                <div style="text-align: center;">Precio</div>
-                <div style="text-align: center;">Impuestos</div>
+                <div style="text-align: center;">Precio Neto</div>
+                <div style="text-align: center;">Con Impuestos</div>
             </div>
             <div class="list-container" id="listaProductos">
                 <div style="padding: 80px; text-align: center; color: var(--text-muted); font-weight: 600;">
-                    <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2.5rem; color: var(--brand-red); margin-bottom: 20px; display: block;"></i>
-                    Conectando con el inventario...
+                    <i class="fa-solid fa-gear fa-spin" style="font-size: 3rem; color: var(--text-main); margin-bottom: 20px; display: block;"></i>
+                    Sincronizando inventario...
                 </div>
             </div>
         </div>
 
         <div class="catalog-footer">
-            <div id="productCount">Mostrando 0 productos</div>
+            <div id="productCount">Iniciando sistema...</div>
             <div class="status-online"><i class="fa-solid fa-cloud-check"></i> Catálogo Actualizado</div>
         </div>
 
@@ -262,8 +284,7 @@
         </div>
 
     <script>
-            const API_WEB_URL = 'https://script.google.com/macros/s/AKfycbxC6vxC92O_npzFgzRbxAKBjsDcyPY-d15nZWDElpxKke33DPskFFZD-xh-kfGBT5Vt/exec';
-            
+const API_WEB_URL = 'https://script.google.com/macros/s/AKfycbxC6vxC92O_npzFgzRbxAKBjsDcyPY-d15nZWDElpxKke33DPskFFZD-xh-kfGBT5Vt/exec';
             let productos = [];
             let filtroMarcaActual = "";
 
@@ -309,7 +330,7 @@
                 const horaFormat = fecha.toLocaleDateString() + ' a las ' + fecha.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                 localStorage.setItem('fechaRespaldoCali', horaFormat);
                 const statusDiv = document.querySelector('.status-online');
-                statusDiv.innerHTML = `<i class="fa-solid fa-cloud-check"></i> Catálogo Actualizado`;
+                statusDiv.innerHTML = `<i class="fa-solid fa-cloud-check"></i> En línea - Datos al día`;
                 statusDiv.style.color = "var(--brand-red)";
             }
 
@@ -318,18 +339,18 @@
                 const fechaGuardada = localStorage.getItem('fechaRespaldoCali');
                 if (datosGuardados) {
                     const statusDiv = document.querySelector('.status-online');
-                    statusDiv.innerHTML = `<i class="fa-solid fa-wifi-slash"></i> Offline - Respaldo del ${fechaGuardada}`;
+                    statusDiv.innerHTML = `<i class="fa-solid fa-wifi-slash"></i> Sin conexión - Respaldo del ${fechaGuardada}`;
                     statusDiv.style.color = "#d97706"; 
                     procesarYMostrar(JSON.parse(datosGuardados));
                 } else {
-                    document.getElementById("listaProductos").innerHTML = `<div style="padding: 80px; text-align: center; color: var(--text-muted);"><i class="fa-solid fa-wifi-slash" style="font-size: 3rem; color: #d97706; margin-bottom: 20px; display: block;"></i><b style="font-size: 1.2rem;">No hay conexión a internet.</b><br><br>Aún no hay un respaldo guardado.</div>`;
-                    document.getElementById("productCount").innerText = "Mostrando 0 productos";
+                    document.getElementById("listaProductos").innerHTML = `<div style="padding: 80px; text-align: center; color: var(--text-muted);"><i class="fa-solid fa-wifi-slash" style="font-size: 3rem; color: #d97706; margin-bottom: 20px; display: block;"></i><b style="font-size: 1.2rem;">Sin conexión a internet.</b><br><br>No se encontró un caché previo para mostrar.</div>`;
+                    document.getElementById("productCount").innerText = "0 productos cargados";
                 }
             }
 
             function procesarYMostrar(datosJson) {
                 if (!datosJson || datosJson.length === 0) {
-                    document.getElementById("listaProductos").innerHTML = `<div style="padding: 80px; text-align: center; color: var(--text-muted); font-size: 1.2rem; font-weight: 600;">La base de datos está vacía.</div>`;
+                    document.getElementById("listaProductos").innerHTML = `<div style="padding: 80px; text-align: center; color: var(--text-muted); font-size: 1.2rem; font-weight: 600;">La base de datos se encuentra vacía.</div>`;
                     return;
                 }
                 productos = datosJson.map(p => {
@@ -352,92 +373,94 @@
             }
             function cerrarImagen(e) { document.getElementById("imageModal").style.display = "none"; }
 
-           function render(data) {
-    const container = document.getElementById("listaProductos");
-    if (data.length === 0) {
-        container.innerHTML = `<div style="padding: 80px; text-align: center; color: var(--text-muted); font-size: 1.2rem; font-weight: 600;">No se encontraron repuestos con esa búsqueda.</div>`;
-        document.getElementById("productCount").innerText = "Mostrando 0 productos";
-        return;
-    }
+            function render(data) {
+                const container = document.getElementById("listaProductos");
+                if (data.length === 0) {
+                    container.innerHTML = `<div style="padding: 80px; text-align: center; color: var(--text-muted); font-size: 1.2rem; font-weight: 600;">No se encontraron repuestos con esa búsqueda.</div>`;
+                    document.getElementById("productCount").innerText = "Mostrando 0 productos";
+                    return;
+                }
 
-    const esMovil = window.innerWidth <= 992;
+                const esMovil = window.innerWidth <= 992;
+                
+                // MEJORA DE RENDIMIENTO: Renderizar máximo 50 ítems a la vez para evitar que se congele
+                const limiteMostrado = 50;
+                const datosCortados = data.slice(0, limiteMostrado);
 
-    // EL SECRETO: Cortar la lista para dibujar máximo 50 elementos a la vez
-    const limiteMostrado = 50;
-    const datosCortados = data.slice(0, limiteMostrado);
+                container.innerHTML = datosCortados.map((p, index) => {
+                    const unitPrice = p.pUnitario || 0;
+                    const pFact = (unitPrice * 1.09).toFixed(2);
+                    const marcaLabel = p.marca || "SIN MARCA";
+                    const searchString = `${p.codCali} ${p.desc} ${p.marca} ${p.otrosCod || ''}`.toLowerCase();
+                    const tieneImagen = p.img && p.img.startsWith('http');
+                    const thumbHtml = tieneImagen 
+                        ? `<img src="${p.img}" class="thumb-img" onclick="abrirImagen('${p.img}')" title="Ver foto completa" loading="lazy">`
+                        : `<div class="thumb-placeholder" title="Sin foto disponible"><i class="fa-solid fa-camera-slash"></i></div>`;
+                    
+                    // Retraso escalonado para la animación de entrada
+                    const delay = index < 15 ? `style="animation-delay: ${index * 0.03}s"` : '';
 
-    container.innerHTML = datosCortados.map(p => {
-        const unitPrice = p.pUnitario || 0;
-        const pFact = (unitPrice * 1.09).toFixed(2);
-        const marcaLabel = p.marca || "SIN MARCA";
-        const searchString = `${p.codCali} ${p.desc} ${p.marca} ${p.otrosCod || ''}`.toLowerCase();
-        const tieneImagen = p.img && p.img.startsWith('http');
-        const thumbHtml = tieneImagen 
-            ? `<img src="${p.img}" class="thumb-img" onclick="abrirImagen('${p.img}')" title="Clic para agrandar" loading="lazy">`
-            : `<div class="thumb-placeholder" title="Sin foto disponible"><i class="fa-solid fa-camera-slash"></i></div>`;
+                    if (esMovil) {
+                        return `
+                        <div class="list-item" data-search="${searchString}" ${delay}>
+                            <div class="list-item-header">
+                                <div class="col-code">${p.codCali}</div>
+                                <div class="col-brand"><span class="brand-badge">${marcaLabel}</span></div>
+                            </div>
+                            <div class="col-desc">
+                                ${thumbHtml}
+                                <div class="title-text-group">
+                                    <span class="product-title">${p.desc}</span>
+                                    <span class="product-subcodes">${p.otrosCod || "---"}</span>
+                                </div>
+                            </div>
+                            <div class="mobile-prices">
+                                <div class="mobile-price-box normal">
+                                    <span class="lbl">NORMAL (S/F)</span>
+                                    <span class="val">Bs ${unitPrice.toFixed(2)}</span>
+                                </div>
+                                <div class="mobile-price-box facturado">
+                                    <span class="lbl">C / FACTURA</span>
+                                    <span class="val">Bs ${pFact}</span>
+                                </div>
+                            </div>
+                        </div>`;
+                    } else {
+                        return `
+                        <div class="list-item" data-search="${searchString}" ${delay}>
+                            <div class="col-code">${p.codCali}</div>
+                            <div class="col-desc">
+                                ${thumbHtml}
+                                <div class="title-text-group">
+                                    <span class="product-title">${p.desc}</span>
+                                    <span class="product-subcodes">${p.otrosCod || "---"}</span>
+                                </div>
+                            </div>
+                            <div class="col-brand">
+                                <span class="brand-badge">${marcaLabel}</span>
+                            </div>
+                            <div class="col-price">
+                                <div class="price-box normal">
+                                    <span class="lbl">Normal (S/F)</span>
+                                    <span class="val">Bs ${unitPrice.toFixed(2)}</span>
+                                </div>
+                            </div>
+                            <div class="col-price-fact">
+                                <div class="price-box facturado">
+                                    <span class="lbl">C / Factura</span>
+                                    <span class="val">Bs ${pFact}</span>
+                                </div>
+                            </div>
+                        </div>`;
+                    }
+                }).join("");
 
-        if (esMovil) {
-            return `
-            <div class="list-item" data-search="${searchString}">
-                <div class="list-item-header">
-                    <div class="col-code">${p.codCali}</div>
-                    <div class="col-brand"><span class="brand-badge">${marcaLabel}</span></div>
-                </div>
-                <div class="col-desc">
-                    ${thumbHtml}
-                    <div class="title-text-group">
-                        <span class="product-title">${p.desc}</span>
-                        <span class="product-subcodes">${p.otrosCod || "---"}</span>
-                    </div>
-                </div>
-                <div class="mobile-prices">
-                    <div class="mobile-price-box normal">
-                        <span class="lbl">NORMAL (S/F)</span>
-                        <span class="val">Bs ${unitPrice.toFixed(2)}</span>
-                    </div>
-                    <div class="mobile-price-box facturado">
-                        <span class="lbl">C / FACTURA</span>
-                        <span class="val">Bs ${pFact}</span>
-                    </div>
-                </div>
-            </div>`;
-        } else {
-            return `
-            <div class="list-item" data-search="${searchString}">
-                <div class="col-code">${p.codCali}</div>
-                <div class="col-desc">
-                    ${thumbHtml}
-                    <div class="title-text-group">
-                        <span class="product-title">${p.desc}</span>
-                        <span class="product-subcodes">${p.otrosCod || "---"}</span>
-                    </div>
-                </div>
-                <div class="col-brand">
-                    <span class="brand-badge">${marcaLabel}</span>
-                </div>
-                <div class="col-price">
-                    <div class="price-box normal">
-                        <span class="lbl">Normal (S/F)</span>
-                        <span class="val">Bs ${unitPrice.toFixed(2)}</span>
-                    </div>
-                </div>
-                <div class="col-price-fact">
-                    <div class="price-box facturado">
-                        <span class="lbl">C / Factura</span>
-                        <span class="val">Bs ${pFact}</span>
-                    </div>
-                </div>
-            </div>`;
-        }
-    }).join("");
-
-    // Actualizar el contador para mostrar cuántos se ven realmente
-    let textoResultados = `Mostrando ${datosCortados.length} repuestos`;
-    if (data.length > limiteMostrado) {
-        textoResultados = `Mostrando ${datosCortados.length} de ${data.length} coincidencias. Usa el buscador para más precisión.`;
-    }
-    document.getElementById("productCount").innerText = textoResultados;
-}
+                let textoResultados = `Visualizando ${datosCortados.length} repuestos`;
+                if (data.length > limiteMostrado) {
+                    textoResultados = `Visualizando ${datosCortados.length} de ${data.length} coincidencias. Refina tu búsqueda.`;
+                }
+                document.getElementById("productCount").innerText = textoResultados;
+            }
 
             function filtrar() {
                 const q = document.getElementById("searchInput").value.toLowerCase();
@@ -468,16 +491,24 @@
 
             window.addEventListener('online', cargarDatosDesdeSheets);
             window.addEventListener('offline', cargarRespaldoLocal);
-           window.onload = () => {
-    // 1. Mostrar los datos guardados en memoria INMEDIATAMENTE al entrar
-    const datosGuardados = localStorage.getItem('respaldoInventarioCali');
-    if (datosGuardados) {
-        procesarYMostrar(JSON.parse(datosGuardados));
-        document.querySelector('.status-online').innerHTML = `<i class="fa-solid fa-rotate fa-spin"></i> Actualizando base de datos...`;
-    }
-    // 2. Conectarse a Sheets de forma silenciosa para ver si hay cambios nuevos
-    cargarDatosDesdeSheets();
-};
+            
+            // Lógica de carga optimizada
+            window.onload = () => {
+                const datosGuardados = localStorage.getItem('respaldoInventarioCali');
+                if (datosGuardados) {
+                    procesarYMostrar(JSON.parse(datosGuardados));
+                    document.querySelector('.status-online').innerHTML = `<i class="fa-solid fa-rotate fa-spin"></i> Actualizando en segundo plano...`;
+                }
+                cargarDatosDesdeSheets();
+            };
+
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('./sw.js')
+                        .then(reg => console.log('SW registrado.'))
+                        .catch(err => console.error('Error SW:', err));
+                });
+            }
         </script>
     </body>
 </html>
